@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
+import { errorHandler, errorNotFound } from './middleware/errorMiddleware.js'
 
 // routes
 import productRoutes from './routes/productRoutes.js'
@@ -17,6 +18,9 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRoutes)
 
+app.use(errorNotFound)
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000
 
