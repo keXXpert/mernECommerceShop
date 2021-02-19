@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Card, Col, Image, ListGroup, Row } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import { IProduct } from '../types/common'
-import products from '../products'
 import { Rating } from '../components/Rating'
+import axios from 'axios'
 
 interface ParamsType {
     id: string
@@ -11,8 +11,19 @@ interface ParamsType {
 
 export const ProductPage = () => {
     const { id } = useParams<ParamsType>()
+    const [product, setProduct] = useState<IProduct | null>(null)
 
-    const product = products.find(p => p._id === id) as IProduct
+    useEffect(() => {
+        async function fetchProduct() {
+            const { data } = await axios.get(`/api/product/${id}`)
+            if (data) setProduct(data)
+        }
+
+        fetchProduct()
+    }, [id])
+
+    if (!product) return <div>Loading...</div>
+
     return (
         <>
             <Link className='btn  btn-light my-3' to='/'>Go Back</Link>
