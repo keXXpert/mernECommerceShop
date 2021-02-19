@@ -1,0 +1,30 @@
+{
+  "name": "kexxpert-ecommerce",
+  "version": "0.0.1",
+  "description": "keXXpert eCommerce Shop",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keXXpert/mernECommerceShop.git"
+  },
+  "keywords": [
+    "mern",
+    "react",
+    "nodejs",
+    "expressjs",
+    "mongodb"
+  ],
+  "author": "keXXpert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/keXXpert/mernECommerceShop/issues"
+  },
+  "homepage": "https://github.com/keXXpert/mernECommerceShop#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
