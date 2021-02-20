@@ -7,7 +7,7 @@ const initialState = {
     error: ''
 }
 
-export const productReducer = (state = initialState, action: ProductsListActionTypes) => {
+export const productListReducer = (state = initialState, action: ProductsListActionTypes) => {
     switch (action.type) {
         case PRODUCT_LIST_REQUEST:
             return { ...state, loading: true, products: [] }

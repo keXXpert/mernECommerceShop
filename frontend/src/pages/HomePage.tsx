@@ -1,5 +1,4 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Loader } from '../components/Loader'
@@ -7,7 +6,6 @@ import { Message } from '../components/Message'
 import { Product } from '../components/Product'
 import { listProducts } from '../redux/actions/productActions'
 import { RootState } from '../redux/store'
-import { IProduct } from '../types/common'
 
 export const HomePage = () => {
     const products = useSelector((state: RootState) => state.productList.products)
@@ -17,7 +15,7 @@ export const HomePage = () => {
 
     useEffect(() => {
         dispatch(listProducts())
-    }, [])
+    }, [dispatch])
 
     return (
         <>
