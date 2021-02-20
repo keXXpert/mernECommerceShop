@@ -2,7 +2,7 @@ import React from 'react'
 import { Alert } from 'react-bootstrap'
 
 interface MessagePropsType {
-    variant: string,
+    variant?: string,
     children: React.ReactNode
 }
 
