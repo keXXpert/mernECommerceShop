@@ -1,8 +1,18 @@
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Container, Nav, Navbar } from 'react-bootstrap'
+import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../redux/store'
+import { logout } from '../redux/actions/userActions'
 
 export const Header = () => {
+    const userInfo = useSelector((state: RootState) => state.user.userInfo)
+    const dispatch = useDispatch()
+
+    const handleLogout = () => {
+        dispatch(logout())
+    }
+
     return (
         <header>
             <Navbar bg="dark" variant='dark' expand="lg" collapseOnSelect>
@@ -16,18 +26,19 @@ export const Header = () => {
                             <LinkContainer to="/cart">
                                 <Nav.Link><i className='fas fa-shopping-cart'></i> Cart</Nav.Link>
                             </LinkContainer>
-                            <LinkContainer to="/login">
-                                <Nav.Link><i className='fas fa-user'></i> Sign In</Nav.Link>
-                            </LinkContainer>
-                            {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown> */}
+                            {userInfo
+                                ? <NavDropdown title={userInfo.name} id="username">
+                                    <LinkContainer to='/profile'>
+                                        <NavDropdown.Item >My Profile</NavDropdown.Item>
+                                    </LinkContainer>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                                </NavDropdown>
+                                : <LinkContainer to="/login">
+                                    <Nav.Link><i className='fas fa-user'></i> Sign In</Nav.Link>
+                                </LinkContainer>
+                            }
                         </Nav>
-
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

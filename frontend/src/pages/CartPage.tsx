@@ -61,7 +61,7 @@ export const CartPage = () => {
                             <h2>
                                 Subtotal ({cartItems.reduce((acc: number, item: ICartItem) => acc += item.qty, 0)}) items
                             </h2>
-                            ${cartItems.reduce((acc: number, item: ICartItem) => acc += item.price * item.qty, 0)}
+                            ${cartItems.reduce((acc: number, item: ICartItem) => acc += item.price * item.qty, 0).toFixed(2)}
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Button

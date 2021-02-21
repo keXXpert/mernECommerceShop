@@ -28,7 +28,7 @@ export const ProductPage = () => {
 
     const addToCartHandler = () => {
         dispatch(addToCart(id, qty))
-        history.push(`/cart/${id}?qty=${qty}`)
+        history.push('/cart')
     }
 
     return (
