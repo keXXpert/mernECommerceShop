@@ -1,4 +1,4 @@
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT } from "../constants/userConstants"
+import { USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS } from "../constants/userConstants"
 import { IUserInfo } from "../types/common"
 
 const userInfoFromLS = localStorage.getItem('userInfo')
@@ -6,7 +6,8 @@ const userInfoFromLS = localStorage.getItem('userInfo')
 const initialState = {
     userInfo: userInfoFromLS ? JSON.parse(userInfoFromLS) : null as IUserInfo | null,
     loading: false,
-    error: ''
+    error: '',
+    success: false
 }
 
 export const userLoginReducer = (state = initialState, action: UserActionTypes) => {
@@ -19,6 +20,26 @@ export const userLoginReducer = (state = initialState, action: UserActionTypes) 
             return { ...state, loading: false, error: action.payload }
         case USER_LOGOUT:
             return { ...state, userInfo: null }
+        case USER_REGISTER_REQUEST:
+            return { ...state, loading: true }
+        case USER_REGISTER_SUCCESS:
+            return { ...state, loading: false, userInfo: action.payload, error: '' }
+        case USER_REGISTER_FAIL:
+            return { ...state, loading: false, error: action.payload }
+        case USER_DETAILS_REQUEST:
+            return { ...state, loading: true }
+        case USER_DETAILS_SUCCESS:
+            return { ...state, loading: false, userInfo: action.payload, error: '' }
+        case USER_DETAILS_FAIL:
+            return { ...state, loading: false, error: action.payload }
+        case USER_UPDATE_REQUEST:
+            return { ...state, loading: true, success: false }
+        case USER_UPDATE_SUCCESS:
+            return { ...state, loading: false, success: true, userInfo: action.payload, error: '' }
+        case USER_UPDATE_FAIL:
+            return { ...state, loading: false, error: action.payload, success: false }
+        case USER_UPDATE_RESET:
+            return { ...state, loading: false, error: action.payload }
         default:
             return state
     }
@@ -27,7 +48,10 @@ export const userLoginReducer = (state = initialState, action: UserActionTypes) 
 // types
 export type UserInitialStateType = typeof initialState
 
-export type UserActionTypes = UserLoginRequestActionType | UserLogoutActionType | UserLoginSuccessActionType | UserLoginFailActionType
+export type UserActionTypes = UserLoginRequestActionType | UserLogoutActionType | UserLoginSuccessActionType |
+    UserLoginFailActionType | UserRegisterRequestActionType | UserRegisterSuccessActionType | UserRegisterFailActionType |
+    UserDetailsRequestActionType | UserDetailsSuccessActionType | UserDetailsFailActionType | UserUpdateRequestActionType |
+    UserUpdateSuccessActionType | UserUpdateFailActionType | UserUpdateResetActionType
 
 interface UserLoginRequestActionType {
     type: typeof USER_LOGIN_REQUEST,
@@ -45,4 +69,51 @@ interface UserLoginFailActionType {
 
 interface UserLogoutActionType {
     type: typeof USER_LOGOUT,
+}
+
+interface UserRegisterRequestActionType {
+    type: typeof USER_REGISTER_REQUEST,
+}
+
+interface UserRegisterSuccessActionType {
+    type: typeof USER_REGISTER_SUCCESS,
+    payload: IUserInfo
+}
+
+interface UserRegisterFailActionType {
+    type: typeof USER_REGISTER_FAIL,
+    payload: string
+}
+
+interface UserDetailsRequestActionType {
+    type: typeof USER_DETAILS_REQUEST,
+}
+
+interface UserDetailsSuccessActionType {
+    type: typeof USER_DETAILS_SUCCESS,
+    payload: IUserInfo
+}
+
+interface UserDetailsFailActionType {
+    type: typeof USER_DETAILS_FAIL,
+    payload: string
+}
+
+interface UserUpdateRequestActionType {
+    type: typeof USER_UPDATE_REQUEST,
+}
+
+interface UserUpdateSuccessActionType {
+    type: typeof USER_UPDATE_SUCCESS,
+    payload: IUserInfo
+}
+
+interface UserUpdateFailActionType {
+    type: typeof USER_UPDATE_FAIL,
+    payload: string
+}
+
+interface UserUpdateResetActionType {
+    type: typeof USER_UPDATE_RESET,
+    payload: string
 }

@@ -27,3 +27,10 @@ export interface IUserInfo {
     idAdmin: boolean,
     token: string
 }
+
+export interface IUserDetails {
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+}
