@@ -1,14 +1,14 @@
 import axios from "axios"
-import { ThunkAction } from "redux-thunk"
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../../constants/cartConstants"
-import { ICartItem } from "../../types/common"
-import { CartActionTypes } from "../cartReducer"
-import { RootState } from "../store"
+import {ThunkAction} from "redux-thunk"
+import {CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS} from "../../constants/cartConstants"
+import {ICartItem, IShippingInfo} from "../../types/common"
+import {CartActionTypes} from "../cartReducer"
+import {RootState} from "../store"
 
 export const addToCart =
     (id: string, qty: number): ThunkAction<void, RootState, unknown, CartActionTypes> =>
         async (dispatch, getState) => {
-            const { data } = await axios.get(`/api/products/${id}`)
+            const {data} = await axios.get(`/api/products/${id}`)
             dispatch({
                 type: CART_ADD_ITEM,
                 payload: {
@@ -24,7 +24,19 @@ export const addToCart =
         }
 
 export const removeFromCart = (item: ICartItem): ThunkAction<void, RootState, unknown, CartActionTypes> =>
-    async (dispatch, getState) => {
-        dispatch({ type: CART_REMOVE_ITEM, payload: item })
+    (dispatch, getState) => {
+        dispatch({type: CART_REMOVE_ITEM, payload: item})
         localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
+    }
+
+export const saveShippingAddress = (data: IShippingInfo): ThunkAction<void, RootState, unknown, CartActionTypes> =>
+    (dispatch) => {
+        dispatch({type: CART_SAVE_SHIPPING_ADDRESS, payload: data})
+        localStorage.setItem('shippingAddress', JSON.stringify(data))
+    }
+
+export const savePaymentMethod = (method: string): ThunkAction<void, RootState, unknown, CartActionTypes> =>
+    (dispatch) => {
+        dispatch({type: CART_SAVE_PAYMENT_METHOD, payload: method})
+        localStorage.setItem('paymentMethod', JSON.stringify(method))
     }

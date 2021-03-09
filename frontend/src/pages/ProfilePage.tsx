@@ -30,7 +30,6 @@ export const ProfilePage = () => {
         evt.preventDefault()
         if (password === confirmPassword) {
             setMessage('')
-            // FIXME update user profile
             dispatch(updateUserProfile({ id: userInfo._id, name, email, password }))
         } else {
             setMessage('Passwords are not equal')

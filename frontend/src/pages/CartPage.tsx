@@ -68,7 +68,7 @@ export const CartPage = () => {
                                 type='button'
                                 className='btn-block'
                                 disabled={!cartItems.length}
-                                onClick={() => history.push('/login?redirect=shippinng')}
+                                onClick={() => history.push('/login?redirect=shipping')}
                             >
                                 Proceed To Checkout
                             </Button>

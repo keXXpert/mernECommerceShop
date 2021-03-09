@@ -34,3 +34,10 @@ export interface IUserDetails {
     email: string,
     password: string,
 }
+
+export interface IShippingInfo {
+    address: string,
+    city: string,
+    postalCode: string,
+    country: string
+}
