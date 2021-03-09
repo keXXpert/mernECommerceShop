@@ -41,3 +41,15 @@ export interface IShippingInfo {
     postalCode: string,
     country: string
 }
+
+export interface IOrderInfo {
+    _id?: string,
+    user?: string,
+    orderItems: ICartItem[]
+    shippingAddress: IShippingInfo
+    paymentMethod: string
+    itemsPrice: number
+    taxPrice: number
+    shippingPrice: number
+    totalPrice: number
+}
