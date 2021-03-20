@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRoutes)
 app.use('/api/users', usersRoutes)
-app.use('/api/orders', orderRoutes)
+app.use('/api/order', orderRoutes)
 
 app.use(errorNotFound)
 
