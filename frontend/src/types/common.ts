@@ -44,7 +44,10 @@ export interface IShippingInfo {
 
 export interface IOrderInfo {
     _id?: string,
-    user?: string,
+    user?: {
+        name: string,
+        email: string,
+    },
     orderItems: ICartItem[]
     shippingAddress: IShippingInfo
     paymentMethod: string
@@ -52,4 +55,8 @@ export interface IOrderInfo {
     taxPrice: number
     shippingPrice: number
     totalPrice: number
+    isPaid?: boolean
+    paidAt?: string
+    isDelivered?: boolean
+    deliveredAt?: string
 }

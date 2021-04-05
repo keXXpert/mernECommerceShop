@@ -51,14 +51,14 @@ export const PlaceOrderPage = () => {
                         <ListGroup.Item>
                             <h2>Shipping</h2>
                             <p>
-                                <strong>Address:</strong>
+                                <strong>Address: </strong>
                                 {shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode}, {shippingAddress.country}
                             </p>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <h2>Payment Method</h2>
                             <p>
-                                <strong>Method:</strong>
+                                <strong>Method: </strong>
                                 {paymentMethod}
                             </p>
                         </ListGroup.Item>

@@ -12,6 +12,7 @@ import {ProfilePage} from "./pages/ProfilePage";
 import {ShippingPage} from "./pages/ShippingPage";
 import {PaymentPage} from "./pages/PaymentPage";
 import {PlaceOrderPage} from "./pages/PlaceOrderPage";
+import {OrderPage} from "./pages/OrderPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Switch>
             <Route path='/' component={HomePage} exact />
             <Route path='/product/:id' component={ProductPage} />
+            <Route path='/order/:id' component={OrderPage} />
             <Route path='/cart/:id?' component={CartPage} />
             <Route path='/profile' component={ProfilePage} />
             <Route path='/login' component={LoginPage} />
