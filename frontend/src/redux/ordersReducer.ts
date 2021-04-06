@@ -1,9 +1,10 @@
-import {ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_RESET, ORDER_PAY_SUCCESS} from "../constants/orderConstants"
+import {ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_RESET, ORDER_PAY_SUCCESS, ORDER_USER_LIST_FAIL, ORDER_USER_LIST_REQUEST, ORDER_USER_LIST_SUCCESS} from "../constants/orderConstants"
 
 import {IOrderInfo} from '../types/common'
 
 const initialState = {
     order: null as IOrderInfo | null,
+    orderList: null as IOrderInfo[] | null,
     loading: false,
     error: '',
     success: false,
@@ -33,6 +34,12 @@ export const ordersReducer = (state = initialState, action: OrdersActionTypes) =
             return {...state, payLoading: false, paySuccess: false, error: action.payload}
         case ORDER_PAY_RESET:
             return {...state, payLoading: false, paySuccess: false, error: ''}
+        case ORDER_USER_LIST_REQUEST:
+            return {...state, loading: true, order: null}
+        case ORDER_USER_LIST_SUCCESS:
+            return {...state, loading: false, success: true, orderList: action.payload, error: ''}
+        case ORDER_USER_LIST_FAIL:
+            return {...state, loading: false, success: false, error: action.payload}
         default:
             return state
     }
@@ -45,7 +52,8 @@ export type OrderInitialStateType = typeof initialState
 
 export type OrdersActionTypes = OrderCreateRequestActionType | OrderCreateSuccessActionType | OrderCreateFailActionType |
     OrderDetailsRequestActionType | OrderDetailsSuccessActionType | OrderDetailsFailActionType | OrderPayRequestActionType |
-    OrderPaySuccessActionType | OrderPayFailActionType | OrderPayResetActionType
+    OrderPaySuccessActionType | OrderPayFailActionType | OrderPayResetActionType | OrderUserRequestActionType |
+    OrderUserSuccessActionType | OrderUserFailActionType
 
 interface OrderCreateRequestActionType {
     type: typeof ORDER_CREATE_REQUEST
@@ -89,4 +97,18 @@ interface OrderPayFailActionType {
 }
 interface OrderPayResetActionType {
     type: typeof ORDER_PAY_RESET,
+}
+
+interface OrderUserRequestActionType {
+    type: typeof ORDER_USER_LIST_REQUEST
+}
+
+interface OrderUserSuccessActionType {
+    type: typeof ORDER_USER_LIST_SUCCESS,
+    payload: IOrderInfo []
+}
+
+interface OrderUserFailActionType {
+    type: typeof ORDER_USER_LIST_FAIL,
+    payload: string
 }

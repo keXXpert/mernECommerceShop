@@ -1,4 +1,4 @@
-import {CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS} from "../constants/cartConstants"
+import {CART_ADD_ITEM, CART_ITEMS_RESET, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS} from "../constants/cartConstants"
 import {ICartItem, IShippingInfo} from '../types/common'
 
 const cartItemsFromLS = localStorage.getItem('cartItems')
@@ -33,6 +33,8 @@ export const cartReducer = (state = initialState, action: CartActionTypes) => {
             return {...state, shippingAddress: action.payload}
         case CART_SAVE_PAYMENT_METHOD:
             return {...state, paymentMethod: action.payload}
+        case CART_ITEMS_RESET:
+            return {...state, cartItems: []}
         default:
             return state
     }
@@ -43,7 +45,8 @@ export const cartReducer = (state = initialState, action: CartActionTypes) => {
 
 export type CartInitialStateType = typeof initialState
 
-export type CartActionTypes = CartAddItemActionType | CartRemoveItemActionType | CartSaveShippingActionType | CartSavePaymentMethodActionType
+export type CartActionTypes = CartAddItemActionType | CartRemoveItemActionType | CartSaveShippingActionType | 
+    CartSavePaymentMethodActionType | CartItemsResetActionType
 
 interface CartAddItemActionType {
     type: typeof CART_ADD_ITEM,
@@ -62,5 +65,8 @@ interface CartSaveShippingActionType {
 interface CartSavePaymentMethodActionType {
     type: typeof CART_SAVE_PAYMENT_METHOD,
     payload: string
+}
+interface CartItemsResetActionType {
+    type: typeof CART_ITEMS_RESET,
 }
 

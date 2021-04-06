@@ -59,4 +59,6 @@ export interface IOrderInfo {
     paidAt?: string
     isDelivered?: boolean
     deliveredAt?: string
+    createdAt?: string
+    updatedAt?: string
 }

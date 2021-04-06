@@ -1,6 +1,6 @@
 import axios from "axios"
 import {ThunkAction} from "redux-thunk"
-import {CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS} from "../../constants/cartConstants"
+import {CART_ADD_ITEM, CART_ITEMS_RESET, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS} from "../../constants/cartConstants"
 import {ICartItem, IShippingInfo} from "../../types/common"
 import {CartActionTypes} from "../cartReducer"
 import {RootState} from "../store"
@@ -40,3 +40,9 @@ export const savePaymentMethod = (method: string): ThunkAction<void, RootState, 
         dispatch({type: CART_SAVE_PAYMENT_METHOD, payload: method})
         localStorage.setItem('paymentMethod', JSON.stringify(method))
     }
+
+export const emptyCartItems = (): ThunkAction<void, RootState, unknown, CartActionTypes> => (dispatch) => {
+    dispatch({ type: CART_ITEMS_RESET });
+       
+    localStorage.removeItem('cartItems');
+    }; 
