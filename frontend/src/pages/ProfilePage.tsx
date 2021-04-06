@@ -38,7 +38,7 @@ export const ProfilePage = () => {
         evt.preventDefault()
         if (password === confirmPassword) {
             setMessage('')
-            dispatch(updateUserProfile({id: userInfo._id, name, email, password}))
+            dispatch(updateUserProfile({id: userInfo?._id || '', name, email, password}))
         } else {
             setMessage('Passwords are not equal')
         }

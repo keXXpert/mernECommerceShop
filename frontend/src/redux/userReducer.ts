@@ -1,10 +1,11 @@
-import { USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS } from "../constants/userConstants"
-import { IUserInfo } from "../types/common"
+import {USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS} from "../constants/userConstants"
+import {IUserInfo} from "../types/common"
 
 const userInfoFromLS = localStorage.getItem('userInfo')
 
 const initialState = {
-    userInfo: userInfoFromLS ? JSON.parse(userInfoFromLS) : null as IUserInfo | null,
+    userInfo: userInfoFromLS ? JSON.parse(userInfoFromLS) as IUserInfo | null : null as IUserInfo | null,
+    usersList: null as IUserInfo[] | null,
     loading: false,
     error: '',
     success: false
@@ -13,33 +14,39 @@ const initialState = {
 export const userLoginReducer = (state = initialState, action: UserActionTypes) => {
     switch (action.type) {
         case USER_LOGIN_REQUEST:
-            return { ...state, loading: true }
+            return {...state, loading: true}
         case USER_LOGIN_SUCCESS:
-            return { ...state, loading: false, userInfo: action.payload, error: '' }
+            return {...state, loading: false, userInfo: action.payload, error: ''}
         case USER_LOGIN_FAIL:
-            return { ...state, loading: false, error: action.payload }
+            return {...state, loading: false, error: action.payload}
         case USER_LOGOUT:
-            return { ...state, userInfo: null }
+            return {...state, userInfo: null}
         case USER_REGISTER_REQUEST:
-            return { ...state, loading: true }
+            return {...state, loading: true}
         case USER_REGISTER_SUCCESS:
-            return { ...state, loading: false, userInfo: action.payload, error: '' }
+            return {...state, loading: false, userInfo: action.payload, error: ''}
         case USER_REGISTER_FAIL:
-            return { ...state, loading: false, error: action.payload }
+            return {...state, loading: false, error: action.payload}
         case USER_DETAILS_REQUEST:
-            return { ...state, loading: true }
+            return {...state, loading: true}
         case USER_DETAILS_SUCCESS:
-            return { ...state, loading: false, userInfo: action.payload, error: '' }
+            return {...state, loading: false, userInfo: action.payload, error: ''}
         case USER_DETAILS_FAIL:
-            return { ...state, loading: false, error: action.payload }
+            return {...state, loading: false, error: action.payload}
         case USER_UPDATE_REQUEST:
-            return { ...state, loading: true, success: false }
+            return {...state, loading: true, success: false}
         case USER_UPDATE_SUCCESS:
-            return { ...state, loading: false, success: true, userInfo: action.payload, error: '' }
+            return {...state, loading: false, success: true, userInfo: action.payload, error: ''}
         case USER_UPDATE_FAIL:
-            return { ...state, loading: false, error: action.payload, success: false }
+            return {...state, loading: false, error: action.payload, success: false}
         case USER_UPDATE_RESET:
-            return { ...state, loading: false, error: action.payload }
+            return {...state, loading: false, error: action.payload}
+        case USER_LIST_REQUEST:
+            return {...state, loading: true}
+        case USER_LIST_SUCCESS:
+            return {...state, loading: false, usersList: action.payload, error: ''}
+        case USER_LIST_FAIL:
+            return {...state, loading: false, error: action.payload}
         default:
             return state
     }
@@ -51,7 +58,8 @@ export type UserInitialStateType = typeof initialState
 export type UserActionTypes = UserLoginRequestActionType | UserLogoutActionType | UserLoginSuccessActionType |
     UserLoginFailActionType | UserRegisterRequestActionType | UserRegisterSuccessActionType | UserRegisterFailActionType |
     UserDetailsRequestActionType | UserDetailsSuccessActionType | UserDetailsFailActionType | UserUpdateRequestActionType |
-    UserUpdateSuccessActionType | UserUpdateFailActionType | UserUpdateResetActionType
+    UserUpdateSuccessActionType | UserUpdateFailActionType | UserUpdateResetActionType | UserListRequestActionType |
+    UserListSuccessActionType | UserListFailActionType
 
 interface UserLoginRequestActionType {
     type: typeof USER_LOGIN_REQUEST,
@@ -115,5 +123,19 @@ interface UserUpdateFailActionType {
 
 interface UserUpdateResetActionType {
     type: typeof USER_UPDATE_RESET,
+    payload: string
+}
+
+interface UserListRequestActionType {
+    type: typeof USER_LIST_REQUEST,
+}
+
+interface UserListSuccessActionType {
+    type: typeof USER_LIST_SUCCESS,
+    payload: IUserInfo[]
+}
+
+interface UserListFailActionType {
+    type: typeof USER_LIST_FAIL,
     payload: string
 }

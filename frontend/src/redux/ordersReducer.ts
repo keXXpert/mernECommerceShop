@@ -1,4 +1,4 @@
-import {ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_RESET, ORDER_PAY_SUCCESS, ORDER_USER_LIST_FAIL, ORDER_USER_LIST_REQUEST, ORDER_USER_LIST_SUCCESS} from "../constants/orderConstants"
+import {ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_RESET, ORDER_PAY_SUCCESS, ORDER_RESET, ORDER_USER_LIST_FAIL, ORDER_USER_LIST_REQUEST, ORDER_USER_LIST_SUCCESS} from "../constants/orderConstants"
 
 import {IOrderInfo} from '../types/common'
 
@@ -40,6 +40,8 @@ export const ordersReducer = (state = initialState, action: OrdersActionTypes) =
             return {...state, loading: false, success: true, orderList: action.payload, error: ''}
         case ORDER_USER_LIST_FAIL:
             return {...state, loading: false, success: false, error: action.payload}
+        case ORDER_RESET:
+            return {...initialState}
         default:
             return state
     }
@@ -53,7 +55,7 @@ export type OrderInitialStateType = typeof initialState
 export type OrdersActionTypes = OrderCreateRequestActionType | OrderCreateSuccessActionType | OrderCreateFailActionType |
     OrderDetailsRequestActionType | OrderDetailsSuccessActionType | OrderDetailsFailActionType | OrderPayRequestActionType |
     OrderPaySuccessActionType | OrderPayFailActionType | OrderPayResetActionType | OrderUserRequestActionType |
-    OrderUserSuccessActionType | OrderUserFailActionType
+    OrderUserSuccessActionType | OrderUserFailActionType | OrderResetActionType
 
 interface OrderCreateRequestActionType {
     type: typeof ORDER_CREATE_REQUEST
@@ -111,4 +113,7 @@ interface OrderUserSuccessActionType {
 interface OrderUserFailActionType {
     type: typeof ORDER_USER_LIST_FAIL,
     payload: string
+}
+interface OrderResetActionType {
+    type: typeof ORDER_RESET,
 }

@@ -13,7 +13,7 @@ export const authUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            idAdmin: user.isAdmin,
+            isAdmin: user.isAdmin,
             token: generateToken(user._id)
         })
     } else {
@@ -40,7 +40,7 @@ export const registerUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            idAdmin: user.isAdmin,
+            isAdmin: user.isAdmin,
             token: generateToken(user._id)
         })
     } else {
@@ -51,7 +51,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 })
 
 // @desc        Get user profile
-// @route       POST /api/users/profile
+// @route       GET /api/users/profile
 // @access      Private
 export const getUserProfile = asyncHandler(async (req, res) => {
     const { user } = req
@@ -60,7 +60,7 @@ export const getUserProfile = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            idAdmin: user.isAdmin,
+            isAdmin: user.isAdmin,
         })
     } else {
         res.status(404)
@@ -82,11 +82,19 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
-            idAdmin: updatedUser.isAdmin,
+            isAdmin: updatedUser.isAdmin,
             token: generateToken(updatedUser._id)
         })
     } else {
         res.status(404)
         throw new Error('User is not found')
     }
+})
+
+// @desc        Get all users
+// @route       GET /api/users
+// @access      Private/Admin
+export const getUsers = asyncHandler(async (req, res) => {
+    const users = await User.find({})
+    res.json(users)
 })

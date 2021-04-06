@@ -13,6 +13,7 @@ import {ShippingPage} from "./pages/ShippingPage";
 import {PaymentPage} from "./pages/PaymentPage";
 import {PlaceOrderPage} from "./pages/PlaceOrderPage";
 import {OrderPage} from "./pages/OrderPage";
+import {UserListPage} from "./pages/UserListPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path='/shipping' component={ShippingPage} />
             <Route path='/payment' component={PaymentPage} />
             <Route path='/placeorder' component={PlaceOrderPage} />
+            <Route path='/admin/users' component={UserListPage} />
             <Route path='*' component={HomePage} />
           </Switch>
         </Container>

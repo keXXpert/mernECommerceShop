@@ -24,7 +24,7 @@ export interface IUserInfo {
     _id: string,
     name: string,
     email: string,
-    idAdmin: boolean,
+    isAdmin: boolean,
     token: string
 }
 
