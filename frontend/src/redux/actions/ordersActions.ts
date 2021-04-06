@@ -1,6 +1,6 @@
 import axios from "axios";
 import {ThunkAction} from "redux-thunk";
-import {ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS} from "../../constants/orderConstants";
+import {ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_DETAILS_FAIL, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_RESET, ORDER_PAY_SUCCESS} from "../../constants/orderConstants";
 import {IOrderInfo} from "../../types/common";
 import {OrdersActionTypes} from "../ordersReducer";
 import {RootState} from "../store";
@@ -58,3 +58,5 @@ export const payOrder = (orderId: string, paymentResult: any): ThunkAction<void,
             dispatch({type: ORDER_PAY_FAIL, payload: err.response?.data?.message || err.message})
         }
     }
+
+export const resetOrder = () => ({type: ORDER_PAY_RESET})

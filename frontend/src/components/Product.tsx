@@ -10,7 +10,7 @@ interface ProductPropsType {
 
 export const Product = ({ product }: ProductPropsType) => {
     return (
-        <Card className='my-3 p-3 rounded'>
+        <Card className='my-3 rounded' >
             <a href={`/product/${product._id}`} >
                 <Card.Img src={product.image} variant='top' />
             </a>

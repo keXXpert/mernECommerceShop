@@ -1,11 +1,12 @@
 import axios from 'axios'
 import React, {useEffect, useState} from 'react'
 import {Button, Col, ListGroup, Row, Image, Card} from 'react-bootstrap'
+import {PayPalButton} from 'react-paypal-button-v2'
 import {useDispatch, useSelector} from 'react-redux'
 import {Link, useHistory, useParams} from 'react-router-dom'
 import {Loader} from '../components/Loader'
 import {Message} from '../components/Message'
-import {getOrderDetails} from '../redux/actions/ordersActions'
+import {getOrderDetails, payOrder, resetOrder} from '../redux/actions/ordersActions'
 import {RootState} from '../redux/store'
 import {ICartItem} from '../types/common'
 
@@ -25,16 +26,16 @@ export const OrderPage = () => {
         script.type = 'text/javascript'
         script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
         script.async = true
-        script.onload = () => {
-            setSdkReady(true)
-        }
+        script.onload = () => setSdkReady(true)
+        
         document.body.appendChild(script)
     }
 
     useEffect(() => {
-        if (!order || paySuccess) {
+        if ((!order && !loading) || paySuccess) {
+            dispatch(resetOrder())
             dispatch(getOrderDetails(orderId))
-        } else if (!order.isPaid) {
+        } else if (!order?.isPaid) {
             if (!(window as any).paypal) {
                 addPayPalScript()
             } else {
@@ -44,6 +45,11 @@ export const OrderPage = () => {
 
         //eslint-disable-next-line
     }, [orderId, paySuccess, order])
+
+    const handlePaymentSuccess = (paymentResult: any) => {
+        console.log(paymentResult)
+        dispatch(payOrder(orderId, paymentResult))
+    }
 
     if (loading) return <Loader />
     if (error) return <Message variant='danger'>{error}</Message>
@@ -141,6 +147,16 @@ export const OrderPage = () => {
                                         </Col>
                                     </Row>
                                 </ListGroup.Item>
+                                {!order.isPaid && (
+                                    <ListGroup.Item>
+                                        {payLoading || !sdkReady 
+                                        ? <Loader />
+                                        :(<PayPalButton 
+                                            amount={order.totalPrice}
+                                            onSuccess={handlePaymentSuccess}
+                                        />)}
+                                    </ListGroup.Item>
+                                )}
                             </ListGroup>
                         </Card>
                     </Col>
