@@ -13,7 +13,7 @@ export const createOrder = (order: IOrderInfo): ThunkAction<void, RootState, unk
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + getState().user.userInfo.token
+                    Authorization: 'Bearer ' + getState().user.userInfo?.token || ''
                 }
             }
             const {data} = await axios.post('/api/order', order, config)
@@ -31,7 +31,7 @@ export const getOrderDetails = (orderId: string): ThunkAction<void, RootState, u
             dispatch({type: ORDER_DETAILS_REQUEST})
             const config = {
                 headers: {
-                    Authorization: 'Bearer ' + getState().user.userInfo.token
+                    Authorization: 'Bearer ' + getState().user.userInfo?.token || ''
                 }
             }
             const {data} = await axios.get(`/api/order/${orderId}`, config)
@@ -49,7 +49,7 @@ export const payOrder = (orderId: string, paymentResult: any): ThunkAction<void,
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + getState().user.userInfo.token
+                    Authorization: 'Bearer ' + getState().user.userInfo?.token || ''
                 }
             }
             await axios.put(`/api/order/${orderId}/pay`, paymentResult, config)
@@ -69,7 +69,7 @@ export const getUserOrders = (): ThunkAction<void, RootState, unknown, OrdersAct
             dispatch({type: ORDER_USER_LIST_REQUEST})
             const config = {
                 headers: {
-                    Authorization: 'Bearer ' + getState().user.userInfo.token
+                    Authorization: 'Bearer ' + getState().user.userInfo?.token || ''
                 }
             }
             const {data} = await axios.get(`/api/order/myorders`, config)

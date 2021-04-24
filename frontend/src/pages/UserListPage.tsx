@@ -1,24 +1,28 @@
 import React, {useEffect} from 'react'
 import {Button, Table} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
+import {useHistory} from 'react-router'
 import {LinkContainer} from 'react-router-bootstrap'
 import {Loader} from '../components/Loader'
 import {Message} from '../components/Message'
-import {getUsersList} from '../redux/actions/userActions'
+import {deleteUser, getUsersList} from '../redux/actions/userActions'
 import {RootState} from '../redux/store'
 import {IUserInfo} from '../types/common'
 
 export const UserListPage = () => {
     const dispatch = useDispatch()
-    const {loading, error, usersList} = useSelector((state: RootState) => state.user)
+    const history = useHistory()
+    const {loading, error, usersList, userInfo, deleteError, deleteLoading, deleteSuccess} = useSelector((state: RootState) => state.user)
 
     useEffect(() => {
-        if (!usersList) dispatch(getUsersList())
+        if (userInfo?.isAdmin) {
+            dispatch(getUsersList())
+        } else history.push('/login')
         //eslint-disable-next-line
-    }, [])
+    }, [userInfo, deleteSuccess])
 
     const handleUserDelete = (user: IUserInfo) => {
-
+        if (window.confirm('Are you sure you want to delete a user?')) dispatch(deleteUser(user._id))
     }
 
     return (
@@ -55,6 +59,7 @@ export const UserListPage = () => {
                                         <Button
                                             variant='danger'
                                             size='sm'
+                                            disabled={deleteLoading}
                                             onClick={() => handleUserDelete(user)}
                                         >
                                             <i className='fas fa-trash' />

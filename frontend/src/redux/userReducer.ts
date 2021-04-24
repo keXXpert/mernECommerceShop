@@ -1,4 +1,4 @@
-import {USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS} from "../constants/userConstants"
+import {USER_DELETE_FAIL, USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS} from "../constants/userConstants"
 import {IUserInfo} from "../types/common"
 
 const userInfoFromLS = localStorage.getItem('userInfo')
@@ -8,7 +8,10 @@ const initialState = {
     usersList: null as IUserInfo[] | null,
     loading: false,
     error: '',
-    success: false
+    success: false,
+    deleteLoading: false,
+    deleteSuccess: false,
+    deleteError: ''
 }
 
 export const userLoginReducer = (state = initialState, action: UserActionTypes) => {
@@ -47,6 +50,12 @@ export const userLoginReducer = (state = initialState, action: UserActionTypes) 
             return {...state, loading: false, usersList: action.payload, error: ''}
         case USER_LIST_FAIL:
             return {...state, loading: false, error: action.payload}
+        case USER_DELETE_REQUEST:
+            return {...state, deleteLoading: true, deleteSuccess: false, deleteError: ''}
+        case USER_DELETE_SUCCESS:
+            return {...state, deleteLoading: false, deleteSuccess: true, deleteError: ''}
+        case USER_DELETE_FAIL:
+            return {...state, deleteLoading: false, deleteSuccess: false, deleteError: action.payload}
         default:
             return state
     }
@@ -59,7 +68,8 @@ export type UserActionTypes = UserLoginRequestActionType | UserLogoutActionType 
     UserLoginFailActionType | UserRegisterRequestActionType | UserRegisterSuccessActionType | UserRegisterFailActionType |
     UserDetailsRequestActionType | UserDetailsSuccessActionType | UserDetailsFailActionType | UserUpdateRequestActionType |
     UserUpdateSuccessActionType | UserUpdateFailActionType | UserUpdateResetActionType | UserListRequestActionType |
-    UserListSuccessActionType | UserListFailActionType
+    UserListSuccessActionType | UserListFailActionType | UserDeleteRequestActionType | UserDeleteSuccessActionType | 
+    UserDeleteFailActionType
 
 interface UserLoginRequestActionType {
     type: typeof USER_LOGIN_REQUEST,
@@ -137,5 +147,18 @@ interface UserListSuccessActionType {
 
 interface UserListFailActionType {
     type: typeof USER_LIST_FAIL,
+    payload: string
+}
+
+interface UserDeleteRequestActionType {
+    type: typeof USER_DELETE_REQUEST,
+}
+
+interface UserDeleteSuccessActionType {
+    type: typeof USER_DELETE_SUCCESS,
+}
+
+interface UserDeleteFailActionType {
+    type: typeof USER_DELETE_FAIL,
     payload: string
 }
