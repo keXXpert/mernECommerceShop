@@ -28,7 +28,7 @@ export const UserListPage = () => {
     return (
         <>
             <h1>Users</h1>
-            {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message>
+            {loading ? <Loader /> : error || deleteError ? <Message variant='danger'>{error || deleteError}</Message>
                 : <>
                     <Table striped hover bordered responsive className='table-sm'>
                         <thead>
@@ -51,7 +51,7 @@ export const UserListPage = () => {
                                         : <i className='fas fa-times' style={{color: 'red'}} />}
                                     </td>
                                     <td>
-                                        <LinkContainer to={`/user/${user._id}/edit`}>
+                                        <LinkContainer to={`/admin/user/${user._id}/edit`}>
                                             <Button variant='light' size='sm'>
                                                 <i className='fas fa-edit' />
                                             </Button>
